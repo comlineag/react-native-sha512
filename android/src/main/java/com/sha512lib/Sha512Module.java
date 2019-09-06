@@ -49,7 +49,10 @@ public class Sha512Module extends ReactContextBaseJavaModule {
             md = MessageDigest.getInstance("SHA-512");
             md.update(toHash.getBytes("UTF-8"));
             byte[] digest = md.digest();
-            String hash = String.format("%064x", new java.math.BigInteger(1, digest));
+            for(int i=0; i< bytes.length ;i++){
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            String hash = sb.toString();
             promise.resolve(hash);
 
         } catch (NoSuchAlgorithmException e) {
